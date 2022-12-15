@@ -104,7 +104,7 @@ void nextMode() {
 // void sleepEPD(int durationMin = 8 * 60) {
 void sleepEPD() {
   Serial.print("[sleepEPD]");
-  unsigned int durationS = 5;
+  unsigned int durationS = 60;
   Serial.print(" duration = ");  Serial.println(durationS);
 
   // set some logics...
