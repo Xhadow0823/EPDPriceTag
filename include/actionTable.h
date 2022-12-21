@@ -20,7 +20,6 @@ void wakeUpEPD() {
 
 void fetchConfig() {
   Serial.println("[fetchConfig]");
-  // OK
   // do nothing
   delay(1000);
 }
@@ -104,7 +103,7 @@ void nextMode() {
 // void sleepEPD(int durationMin = 8 * 60) {
 void sleepEPD() {
   Serial.print("[sleepEPD]");
-  unsigned int durationS = 60;
+  unsigned int durationS = 5;
   Serial.print(" duration = ");  Serial.println(durationS);
 
   // set some logics...
@@ -129,5 +128,5 @@ unsigned int sayBeachReturn87(void) {
     return (unsigned int)87;
 }
 
-//                      0          1            2          3         4           5                         6
-void* actionTable[] = { wakeUpEPD, fetchConfig, updateEPD, nextMode, sleepEPD,   getFruitSayFruitReturn87, sayBeachReturn87 };
+//                            0          1            2          3         4                      5                         6
+void (* actionTable [])() = { wakeUpEPD, fetchConfig, updateEPD, nextMode, sleepEPD };  //    ,   getFruitSayFruitReturn87, sayBeachReturn87 };

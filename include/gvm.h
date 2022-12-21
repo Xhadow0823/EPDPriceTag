@@ -36,7 +36,7 @@ typedef unsigned int (*action4)(unsigned int, unsigned int, unsigned int, unsign
 })
 
 extern unsigned int a, b, c, d, e, f;
-extern void* actionTable[];
+extern void (* actionTable [])();
 
 #define GET_CONDITION_VAR(n) ( \
     n==10?a:( \
@@ -65,14 +65,14 @@ int currentStateOffset = 1;  // 現在處理的state 的offset
  */
 void gvm(char * raw) {
     // 將coding table int array
-    const char* d = "  ";
+    const char* del = "  ";
     char *p;
-    p = strtok(raw, d);
+    p = strtok(raw, del);
     int idx = 0;
     while (p != NULL) {
         codingTable[idx] = atoi(p);
         idx++;
-        p = strtok(NULL, d);		   
+        p = strtok(NULL, del);		   
     }
     codingTableLen = idx;
     // printf("coding table size = %d \n", codingTableLen);
@@ -181,7 +181,8 @@ void gvm(char * raw) {
                 unsigned int ret = callAction(actionParamCnt, actionTable[actionN], actionParamArr);
                 // printf("return value = %d\n", ret);
                 // get variable to store return value
-                SET_CONDITION_VAR(retVarN, ret);
+                // SET_CONDITION_VAR(retVarN, ret);
+                ( retVarN==10?(a=ret):( retVarN==11?(b=ret):( retVarN==12?(c=ret):( retVarN==13? (unsigned int)(d=ret):( retVarN==14?(e=ret):(1?(f=ret):0U))))));
                 // printf("return valuable = %d\n", GET_CONDITION_VAR(retVarN));
             }
             // check condition operation result

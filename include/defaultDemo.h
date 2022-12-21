@@ -1,5 +1,5 @@
-#include "epd.h"
 #include <Arduino.h>
+#include <epd.h>
 
 /*******************************************************************************
 * Function Name  : void base_draw(void)

@@ -14,7 +14,11 @@
 #include "epd.h"
 #include <Arduino.h>
 
+#ifdef ARDUINO_AVR_LEONARDO
 const int wake_up = 2;
+#else
+const int wake_up = 8;
+#endif
 const int reset = 3;
 
 
@@ -58,11 +62,7 @@ static void _putchars(const unsigned char * ptr, int n)
 	for(i = 0; i < n; i++)
 	{
 	  x = ptr[i];
-    #ifdef ARDUINO_AVR_LEONARDO
       Serial1.write(x); 
-    #else
-	    Serial.write(x);
-    #endif
 	}
 }
 /*******************************************************************************
@@ -100,13 +100,13 @@ static unsigned char _verify(const void * ptr, int n)
 *******************************************************************************/
 void epd_init(void)
 {
-  #ifdef ARDUINO_AVR_LEONARDO
-	  Serial1.begin(115200);
-  #else
-    Serial.begin(115200);
-  #endif
-	pinMode(wake_up, HIGH);
-	pinMode(reset, HIGH);
+	#ifdef ARDUINO_AVR_LEONARDO
+		Serial1.begin(115200);
+	#else
+	Serial1.begin(115200, 134217756U, 18, 17);
+	#endif
+	pinMode(wake_up, OUTPUT);
+	pinMode(reset, OUTPUT);
 }
 /*******************************************************************************
 * Function Name  : void epd_reset(void)
@@ -189,11 +189,11 @@ void epd_set_baud(long baud)
 	_putchars(_cmd_buff, 13);	
 	
 	delay(10);	
-  #ifdef ARDUINO_AVR_LEONARDO
-	  Serial1.begin(baud);
-  #else
-    Serial.begin(baud);
-  #endif
+	#ifdef ARDUINO_AVR_LEONARDO
+		Serial1.begin(baud);
+	#else
+		Serial1.begin(baud, 134217756U, 18, 17);
+	#endif
 }
 /*******************************************************************************
 * Function Name  : void epd_read_baud(void)
